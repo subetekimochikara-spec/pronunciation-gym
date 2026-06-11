@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Pronunciation Gym - Stable Release</title>
+<style>
+  :root{
+    --bg1:#081424; --bg2:#102f58; --accent:#5ee7ff; --accent2:#ffdf6e;
+    --card:rgba(255,255,255,.12); --card2:rgba(255,255,255,.18); --text:#f7fbff; --muted:#b8c7dc;
+    --danger:#ff7b9c; --ok:#8dffbd;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 20% 10%,#1d67a7 0,#0b1830 44%,#050915 100%);color:var(--text);overflow-x:hidden}
+  button,input{font-family:inherit}
+  .screen{display:none;min-height:100vh;padding:24px 18px 34px;position:relative;z-index:1}
+  .screen.active{display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .stars:before,.stars:after{content:"";position:fixed;inset:0;background-image:radial-gradient(#ffffff99 1px,transparent 1px);background-size:42px 42px;opacity:.17;pointer-events:none}.stars:after{background-size:77px 77px;opacity:.09;transform:translate(11px,22px)}
+  .hero{width:min(520px,94vw);text-align:center}.badge{display:inline-flex;gap:8px;align-items:center;padding:8px 13px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(255,255,255,.08);color:#d9f7ff;font-size:13px;margin-bottom:18px}.title{font-size:42px;line-height:1.04;font-weight:900;letter-spacing:-.04em;margin:0 0 10px}.subtitle{font-size:16px;color:var(--muted);line-height:1.7;margin:0 0 24px}.orb-wrap{position:relative;height:280px;margin:8px 0 24px;display:flex;align-items:center;justify-content:center}.orb{width:176px;height:176px;border-radius:50%;background:radial-gradient(circle at 35% 25%,#ffffff,#76eaff 32%,#1774d1 66%,#0b2b73);box-shadow:0 0 34px #5ee7ff99,0 0 90px #5ee7ff55;display:flex;align-items:center;justify-content:center;font-size:72px;animation:pulse 3.2s ease-in-out infinite}.wave{position:absolute;border:1px solid rgba(94,231,255,.35);border-radius:50%;animation:ripple 3.4s ease-out infinite}.w1{width:220px;height:220px}.w2{width:270px;height:270px;animation-delay:.5s}.w3{width:320px;height:320px;animation-delay:1s}.float-word{position:absolute;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.13);backdrop-filter:blur(8px);font-weight:800;color:#fff;border:1px solid rgba(255,255,255,.16);box-shadow:0 8px 30px rgba(0,0,0,.18);animation:float 4s ease-in-out infinite}.fw1{top:18px;left:18px}.fw2{top:58px;right:10px;animation-delay:.6s}.fw3{bottom:42px;left:2px;animation-delay:1.1s}.fw4{bottom:15px;right:22px;animation-delay:.3s}.fw5{top:8px;right:120px;animation-delay:1.6s}.primary{border:0;border-radius:22px;padding:17px 26px;background:linear-gradient(135deg,#5ee7ff,#7c6bff);color:#061225;font-size:18px;font-weight:900;box-shadow:0 18px 42px rgba(80,170,255,.32);width:min(360px,100%)}
+
+  .home-actions{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:8px}
+  .maintenance-note{width:min(360px,100%);padding:13px 15px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:var(--muted);font-size:12px;line-height:1.55;box-shadow:0 12px 30px rgba(0,0,0,.16)}.maintenance-note b{display:block;color:#e8fbff;font-size:13px;margin-bottom:3px}.maintenance-note span{display:block}
+  .secondary{border:1px solid rgba(255,255,255,.18);border-radius:22px;padding:15px 22px;background:rgba(255,255,255,.11);color:var(--text);font-size:17px;font-weight:900;width:min(360px,100%);box-shadow:0 14px 34px rgba(0,0,0,.18)}
+  .home-add{width:min(360px,100%);margin:4px auto 0;padding:15px;border-radius:24px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);display:none;backdrop-filter:blur(12px)}
+  .home-add.open{display:block}
+  .home-add input{width:100%;padding:15px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.24);color:var(--text);font-size:17px;text-align:center;font-weight:800}
+  .home-add .hint{font-size:12px;color:var(--muted);line-height:1.6;margin:9px 0 0}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}@keyframes ripple{0%{transform:scale(.72);opacity:.8}100%{transform:scale(1.08);opacity:.04}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .app{width:min(560px,100%);margin:0 auto}.topbar{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.mini{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:var(--text);border-radius:14px;padding:10px 12px;font-weight:800}.card{width:100%;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.18);border-radius:32px;padding:28px 20px;box-shadow:0 22px 80px rgba(0,0,0,.26);backdrop-filter:blur(16px);text-align:center}.counter{color:var(--muted);font-weight:800;font-size:13px;margin-bottom:14px}.word{font-size:58px;font-weight:950;letter-spacing:-.045em;margin:6px 0 8px}.meaning{color:#d8e7f5;font-size:17px;margin-bottom:18px}.ipa{display:flex;justify-content:center;align-items:center;gap:3px;flex-wrap:wrap;margin:10px auto 20px;font-size:25px}.ipa span{padding:4px 6px;border-radius:10px;background:rgba(94,231,255,.09);border:1px solid rgba(94,231,255,.18);cursor:pointer}.ipa span:hover{background:rgba(94,231,255,.2)}.speak{width:112px;height:112px;border-radius:50%;border:0;background:radial-gradient(circle at 30% 25%,#fff,#5ee7ff 45%,#4875ff);font-size:42px;box-shadow:0 16px 42px rgba(94,231,255,.33);margin:10px auto 22px;display:flex;align-items:center;justify-content:center}.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.control{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.12);color:var(--text);border-radius:18px;padding:15px 12px;font-weight:900;font-size:16px}.control.on{background:rgba(255,223,110,.2);border-color:rgba(255,223,110,.55);color:#fff3b4}.wide{grid-column:1/-1;background:linear-gradient(135deg,#5ee7ff,#7c6bff);color:#061225;border:0}.addbox{margin-top:18px;padding:16px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);display:none}.addbox.open{display:block}.addbox input{width:100%;margin:7px 0;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.18);color:var(--text);font-size:16px}.hint{color:var(--muted);font-size:13px;line-height:1.5;margin:8px 0 0}.modal{position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:flex-end;justify-content:center;z-index:10}.modal.open{display:flex}.sheet{width:min(560px,100%);background:#0b1729;border:1px solid rgba(255,255,255,.16);border-radius:28px 28px 0 0;padding:22px 18px 30px;box-shadow:0 -20px 80px rgba(0,0,0,.45)}.symbol{font-size:42px;font-weight:950;color:var(--accent);margin:0 0 4px}.sheet h3{margin:0 0 10px;font-size:22px}.row{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.11);border-radius:18px;padding:13px;margin:10px 0;text-align:left}.row b{display:block;color:#dffaff;margin-bottom:5px}.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:8px}.chip{border:1px solid rgba(94,231,255,.34);background:rgba(94,231,255,.13);color:#e9fbff;border-radius:999px;padding:10px 13px;font-weight:900}.close{width:100%;margin-top:14px;border:0;border-radius:18px;padding:14px;background:rgba(255,255,255,.13);color:var(--text);font-weight:900}.smallnote{font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(10,22,38,.94);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:12px 16px;font-weight:900;display:none;z-index:20}.toast.show{display:block}
+
+
+/* ===== Ver.3 Top Screen: America x Future x Pronunciation ===== */
+#home{
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(94,231,255,.28) 0, rgba(94,231,255,.08) 23%, transparent 48%),
+    linear-gradient(135deg, rgba(191,10,48,.18), transparent 28%),
+    linear-gradient(225deg, rgba(0,40,104,.42), transparent 42%);
+}
+#home:before{
+  content:"";
+  position:fixed;
+  inset:-20%;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.065) 0 6px, transparent 6px 34px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 3px, transparent 3px 58px);
+  transform:perspective(700px) rotateX(62deg) translateY(12%);
+  transform-origin:center bottom;
+  opacity:.38;
+  pointer-events:none;
+}
+#home:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(90deg, rgba(191,10,48,.28) 0 7%, transparent 7% 14%, rgba(255,255,255,.08) 14% 21%, transparent 21% 28%, rgba(0,40,104,.28) 28% 35%, transparent 35%),
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,.65) 0 2px, transparent 3px),
+    radial-gradient(circle at 18% 24%, rgba(255,255,255,.65) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 22% 15%, rgba(255,255,255,.65) 0 1.5px, transparent 2.5px);
+  opacity:.34;
+  pointer-events:none;
+  mix-blend-mode:screen;
+}
+.hero.v3{
+  width:min(620px,94vw);
+  position:relative;
+}
+.v3 .badge{
+  background:linear-gradient(135deg, rgba(191,10,48,.32), rgba(0,40,104,.32));
+  border-color:rgba(255,255,255,.28);
+  box-shadow:0 0 24px rgba(94,231,255,.18);
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+.v3 .title{
+  font-size:clamp(44px, 12vw, 72px);
+  letter-spacing:-.065em;
+  text-shadow:0 0 22px rgba(94,231,255,.35), 0 10px 30px rgba(0,0,0,.42);
+  margin-bottom:8px;
+}
+.v3 .subtitle{
+  color:#e6f4ff;
+  margin-bottom:20px;
+}
+.arena{
+  position:relative;
+  width:min(470px,92vw);
+  height:330px;
+  margin:2px auto 26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.mic-core{
+  position:relative;
+  width:150px;
+  height:210px;
+  border-radius:72px 72px 42px 42px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.18) 0 12%, transparent 12% 88%, rgba(255,255,255,.16) 88%),
+    linear-gradient(180deg,#ffffff 0,#9ff5ff 17%,#25bcff 45%,#154fe5 100%);
+  box-shadow:0 0 36px rgba(94,231,255,.8),0 0 100px rgba(37,188,255,.42), inset 0 -16px 28px rgba(0,0,0,.28);
+  z-index:3;
+  animation:micFloat 3.7s ease-in-out infinite;
+}
+.mic-core:before{
+  content:"";
+  position:absolute;
+  left:28px; right:28px; top:26px; bottom:32px;
+  background:repeating-linear-gradient(180deg, rgba(7,16,39,.55) 0 4px, transparent 4px 15px);
+  border-radius:40px;
+  opacity:.75;
+}
+.mic-core:after{
+  content:"🇺🇸";
+  position:absolute;
+  left:50%; top:50%;
+  transform:translate(-50%,-35%);
+  font-size:40px;
+  filter:drop-shadow(0 8px 12px rgba(0,0,0,.35));
+}
+.mic-stand{
+  position:absolute;
+  width:104px;height:74px;
+  border:10px solid rgba(234,248,255,.82);
+  border-top:0;
+  border-radius:0 0 52px 52px;
+  top:172px; z-index:2;
+  box-shadow:0 0 22px rgba(94,231,255,.35);
+}
+.mic-stand:after{
+  content:"";
+  position:absolute;
+  width:16px;height:70px;
+  left:50%;top:52px;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,#eaf8ff,#5ee7ff,#244cff);
+  border-radius:999px;
+}
+.base-line{
+  position:absolute;
+  width:210px;height:16px;
+  top:300px;
+  border-radius:999px;
+  background:linear-gradient(90deg,transparent,#eaf8ff,#5ee7ff,#bf0a30,transparent);
+  box-shadow:0 0 26px rgba(94,231,255,.55);
+}
+.sound-ring{
+  position:absolute;
+  border:2px solid rgba(94,231,255,.34);
+  border-left-color:rgba(191,10,48,.46);
+  border-right-color:rgba(255,255,255,.46);
+  border-radius:50%;
+  animation:spinRing 9s linear infinite;
+}
+.ring-a{width:250px;height:250px}.ring-b{width:320px;height:320px;animation-direction:reverse;opacity:.72}.ring-c{width:390px;height:390px;opacity:.42;animation-duration:13s}
+.equalizer{
+  position:absolute;
+  inset:auto 34px 28px 34px;
+  height:70px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  z-index:1;
+  opacity:.72;
+}
+.bar{
+  width:7px;
+  border-radius:999px;
+  background:linear-gradient(180deg,#fff,#5ee7ff,#bf0a30);
+  box-shadow:0 0 14px rgba(94,231,255,.42);
+  animation:bars 1.15s ease-in-out infinite;
+}
+.bar:nth-child(2n){animation-delay:.16s}.bar:nth-child(3n){animation-delay:.33s}.bar:nth-child(4n){animation-delay:.48s}
+.neon-word{
+  position:absolute;
+  z-index:4;
+  padding:8px 13px;
+  border-radius:999px;
+  background:rgba(3,10,28,.55);
+  border:1px solid rgba(94,231,255,.35);
+  color:#f8fdff;
+  font-weight:950;
+  letter-spacing:-.02em;
+  box-shadow:0 0 18px rgba(94,231,255,.22), inset 0 0 18px rgba(94,231,255,.08);
+  backdrop-filter:blur(10px);
+  animation:wordDrift 4.2s ease-in-out infinite;
+}
+.nw1{top:20px;left:16px}.nw2{top:38px;right:22px;animation-delay:.4s}.nw3{left:0;bottom:80px;animation-delay:.8s}.nw4{right:0;bottom:92px;animation-delay:1.2s}.nw5{top:4px;left:50%;transform:translateX(-50%);animation-delay:1.6s}.nw6{bottom:24px;left:50%;transform:translateX(-50%);animation-delay:2s}
+.scanline{
+  position:absolute;
+  left:50%;top:50%;
+  width:2px;height:270px;
+  background:linear-gradient(180deg, transparent,#fff,#5ee7ff,transparent);
+  transform-origin:center;
+  opacity:.5;
+  animation:scanSpin 6s linear infinite;
+  z-index:0;
+}
+.v3 .primary{
+  background:linear-gradient(135deg,#ffffff 0,#5ee7ff 32%,#2858ff 66%,#bf0a30 100%);
+  color:#051125;
+  box-shadow:0 20px 54px rgba(94,231,255,.38),0 0 0 1px rgba(255,255,255,.22) inset;
+}
+@keyframes micFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes spinRing{to{transform:rotate(360deg)}}
+@keyframes scanSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes bars{0%,100%{height:14px}50%{height:64px}}
+@keyframes wordDrift{0%,100%{margin-top:0}50%{margin-top:-12px}}
+
+</style>
+</head>
+<body class="stars">
+<section id="home" class="screen active">
+  <div class="hero v3">
+    <div class="badge">🇺🇸 AMERICAN ACCENT LAB</div>
+    <h1 class="title">Pronunciation<br>Gym</h1>
+    <p class="subtitle">未来の発音ラボで、英語の音を鍛える。<br>Listen. Imitate. Sound American.</p>
+    <div class="arena" aria-label="American futuristic pronunciation lab illustration">
+      <div class="scanline"></div>
+      <div class="sound-ring ring-a"></div><div class="sound-ring ring-b"></div><div class="sound-ring ring-c"></div>
+      <div class="equalizer">
+        <i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i>
+      </div>
+      <div class="mic-core"></div>
+      <div class="mic-stand"></div>
+      <div class="base-line"></div>
+      <div class="neon-word nw1">/æ/ bad</div>
+      <div class="neon-word nw2">/ɛ/ bed</div>
+      <div class="neon-word nw3">/ɚ/ water</div>
+      <div class="neon-word nw4">/t̬/ better</div>
+      <div class="neon-word nw5">US Accent</div>
+      <div class="neon-word nw6">Voice Training</div>
+    </div>
+    <div class="home-actions">
+      <button class="primary" onclick="startApp()">🎙️ Enter the Lab</button>
+      <div class="maintenance-note">
+        <b>Word Update Mode</b>
+        <span>新しい単語は週1回、MacBookでChatGPT経由で追加。普段は触らず発音練習だけ。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trainer" class="screen">
+  <div class="app">
+    <div class="topbar">
+      <button class="mini" onclick="goHome()">← Home</button>
+      <span class="mini">Sound Explorer</span>
+    </div>
+    <div class="card">
+      <div id="counter" class="counter"></div>
+      <div id="word" class="word">water</div>
+      <div id="meaning" class="meaning">水</div>
+      <div id="ipa" class="ipa"></div>
+      <button class="speak" onclick="speakCurrent()">🔊</button>
+      <div class="controls">
+        <button id="slowBtn" class="control" onclick="toggleSlow()">🐢 Slow</button>
+        <button class="control" onclick="shuffleWords()">🔀 Shuffle</button>
+        <button class="control wide" onclick="nextWord()">Next →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="modal" class="modal" onclick="closeModal(event)">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div id="modalSymbol" class="symbol"></div>
+    <h3 id="modalTitle"></h3>
+    <div class="row"><b>音の説明</b><span id="modalSound"></span></div>
+    <div class="row"><b>口の形</b><span id="modalMouth"></span></div>
+    <div class="row"><b>仲間単語</b><div id="modalWords" class="chips"></div></div>
+    <p class="smallnote">仲間単語を押すと、そのカードへ移動して自動再生するで。</p>
+    <button class="close" onclick="hideModal()">閉じる</button>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+// Pronunciation Gym 実装版: Repeat削除・ホーム追加・Rule18-20反映済み
+const DEFAULT_WORDS = [
+  {
+    "word": "bad",
+    "ipa": "/bæd/",
+    "meaning": "悪い",
+    "tokens": [
+      "b",
+      "æ",
+      "d"
+    ]
+  },
+  {
+    "word": "cat",
+    "ipa": "/kæt/",
+    "meaning": "猫",
+    "tokens": [
+      "k",
+      "æ",
+      "t"
+    ]
+  },
+  {
+    "word": "man",
+    "ipa": "/mæn/",
+    "meaning": "男性",
+    "tokens": [
+      "m",
+      "æ",
+      "n"
+    ]
+  },
+  {
+    "word": "sad",
+    "ipa": "/sæd/",
+    "meaning": "悲しい",
+    "tokens": [
+      "s",
+      "æ",
+      "d"
+    ]
+  },
+  {
+    "word": "hat",
+    "ipa": "/hæt/",
+    "meaning": "帽子",
+    "tokens": [
+      "h",
+      "æ",
+      "t"
+    ]
+  },
+  {
+    "word": "bed",
+    "ipa": "/bɛd/",
+    "meaning": "ベッド",
+    "tokens": [
+      "b",
+      "ɛ",
+      "d"
+    ]
+  },
+  {
+    "word": "red",
+    "ipa": "/rɛd/",
+    "meaning": "赤い",
+    "tokens": [
+      "r",
+      "ɛ",
+      "d"
+    ]
+  },
+  {
+    "word": "head",
+    "ipa": "/hɛd/",
+    "meaning": "頭",
+    "tokens": [
+      "h",
+      "ɛ",
+      "d"
+    ]
+  },
+  {
+    "word": "get",
+    "ipa": "/ɡɛt/",
+    "meaning": "手に入れる",
+    "tokens": [
+      "ɡ",
+      "ɛ",
+      "t"
+    ]
+  },
+  {
+    "word": "said",
+    "ipa": "/sɛd/",
+    "meaning": "言った",
+    "tokens": [
+      "s",
+      "ɛ",
+      "d"
+    ]
+  },
+  {
+    "word": "better",
+    "ipa": "/ˈbet̬ɚ/",
+    "meaning": "より良い",
+    "tokens": [
+      "ˈ",
+      "b",
+      "ɛ",
+      "t̬",
+      "ɚ"
+    ]
+  },
+  {
+    "word": "ship",
+    "ipa": "/ʃɪp/",
+    "meaning": "船",
+    "tokens": [
+      "ʃ",
+      "ɪ",
+      "p"
+    ]
+  },
+  {
+    "word": "sit",
+    "ipa": "/sɪt/",
+    "meaning": "座る",
+    "tokens": [
+      "s",
+      "ɪ",
+      "t"
+    ]
+  },
+  {
+    "word": "big",
+    "ipa": "/bɪɡ/",
+    "meaning": "大きい",
+    "tokens": [
+      "b",
+      "ɪ",
+      "ɡ"
+    ]
+  },
+  {
+    "word": "fish",
+    "ipa": "/fɪʃ/",
+    "meaning": "魚",
+    "tokens": [
+      "f",
+      "ɪ",
+      "ʃ"
+    ]
+  },
+  {
+    "word": "city",
+    "ipa": "/ˈsɪt̬i/",
+    "meaning": "都市",
+    "tokens": [
+      "ˈ",
+      "s",
+      "ɪ",
+      "t̬",
+      "i"
+    ]
+  },
+  {
+    "word": "pretty",
+    "ipa": "/ˈprɪt̬i/",
+    "meaning": "かわいい",
+    "tokens": [
+      "ˈ",
+      "p",
+      "r",
+      "ɪ",
+      "t̬",
+      "i"
+    ]
+  },
+  {
+    "word": "sister",
+    "ipa": "/ˈsɪs.tɚ/",
+    "meaning": "姉妹",
+    "tokens": [
+      "ˈ",
+      "s",
+      "ɪ",
+      "s",
+      "t",
+      "ɚ"
+    ]
+  },
+  {
+    "word": "sheep",
+    "ipa": "/ʃiːp/",
+    "meaning": "羊",
+    "tokens": [
+      "ʃ",
+      "iː",
+      "p"
+    ]
+  },
+  {
+    "word": "see",
+    "ipa": "/siː/",
+    "meaning": "見る",
+    "tokens": [
+      "s",
+      "iː"
+    ]
+  },
+  {
+    "word": "tree",
+    "ipa": "/triː/",
+    "meaning": "木",
+    "tokens": [
+      "t",
+      "r",
+      "iː"
+    ]
+  },
+  {
+    "word": "eat",
+    "ipa": "/iːt/",
+    "meaning": "食べる",
+    "tokens": [
+      "iː",
+      "t"
+    ]
+  },
+  {
+    "word": "teacher",
+    "ipa": "/ˈtiː.tʃɚ/",
+    "meaning": "先生",
+    "tokens": [
+      "ˈ",
+      "t",
+      "iː",
+      "tʃ",
+      "ɚ"
+    ]
+  },
+  {
+    "word": "cup",
+    "ipa": "/kʌp/",
+    "meaning": "カップ",
+    "tokens": [
+      "k",
+      "ʌ",
+      "p"
+    ]
+  },
+  {
+    "word": "love",
+    "ipa": "/lʌv/",
+    "meaning": "愛する",
+    "tokens": [
+      "l",
+      "ʌ",
+      "v"
+    ]
+  },
+  {
+    "word": "bus",
+    "ipa": "/bʌs/",
+    "meaning": "バス",
+    "tokens": [
+      "b",
+      "ʌ",
+      "s"
+    ]
+  },
+  {
+    "word": "run",
+    "ipa": "/rʌn/",
+    "meaning": "走る",
+    "tokens": [
+      "r",
+      "ʌ",
+      "n"
+    ]
+  },
+  {
+    "word": "sun",
+    "ipa": "/sʌn/",
+    "meaning": "太陽",
+    "tokens": [
+      "s",
+      "ʌ",
+      "n"
+    ]
+  },
+  {
+    "word": "hot",
+    "ipa": "/hɑːt/",
+    "meaning": "熱い",
+    "tokens": [
+      "h",
+      "ɑː",
+      "t"
+    ]
+  },
+  {
+    "word": "father",
+    "ipa": "/ˈfɑː.ðɚ/",
+    "meaning": "父",
+    "tokens": [
+      "ˈ",
+      "f",
+      "ɑː",
+      "ð",
+      "ɚ"
+    ]
+  },
+  {
+    "word": "stop",
+    "ipa": "/stɑːp/",
+    "meaning": "止まる",
+    "tokens": [
+      "s",
+      "t",
+      "ɑː",
+      "p"
+    ]
+  },
+  {
+    "word": "job",
+    "ipa": "/dʒɑːb/",
+    "meaning": "仕事",
+    "tokens": [
+      "dʒ",
+      "ɑː",
+      "b"
+    ]
+  },
+  {
+    "word": "water",
+    "ipa": "/ˈwɑː.t̬ɚ/",
+    "meaning": "水",
+    "tokens": [
+      "ˈ",
+      "w",
+      "ɑː",
+      "t̬",
+      "ɚ"
+    ]
+  },
+  {
+    "word": "computer",
+    "ipa": "/kəmˈpjuː.t̬ɚ/",
+    "meaning": "コンピューター",
+    "tokens": [
+      "k",
+      "ə",
+      "m",
+      "ˈ",
+      "p",
+      "j",
+      "uː",
+      "t̬",
+      "ɚ"
+    ]
+  }
+];
+
+const WORD_BANK = Object.fromEntries(DEFAULT_WORDS.map(w => [w.word.toLowerCase(), w]));
+Object.assign(WORD_BANK, {
+  apple:{word:'apple', ipa:'/ˈæpəl/', meaning:'りんご', tokens:['ˈ','æ','p','ə','l']},
+  map:{word:'map', ipa:'/mæp/', meaning:'地図', tokens:['m','æ','p']},
+  black:{word:'black', ipa:'/blæk/', meaning:'黒い', tokens:['b','l','æ','k']},
+  pen:{word:'pen', ipa:'/pɛn/', meaning:'ペン', tokens:['p','ɛ','n']},
+  ten:{word:'ten', ipa:'/tɛn/', meaning:'10', tokens:['t','ɛ','n']},
+  yes:{word:'yes', ipa:'/jɛs/', meaning:'はい', tokens:['j','ɛ','s']},
+  milk:{word:'milk', ipa:'/mɪlk/', meaning:'牛乳', tokens:['m','ɪ','l','k']},
+  this:{word:'this', ipa:'/ðɪs/', meaning:'これ', tokens:['ð','ɪ','s']},
+  green:{word:'green', ipa:'/ɡriːn/', meaning:'緑の', tokens:['ɡ','r','iː','n']},
+  clean:{word:'clean', ipa:'/kliːn/', meaning:'きれいな', tokens:['k','l','iː','n']},
+  up:{word:'up', ipa:'/ʌp/', meaning:'上へ', tokens:['ʌ','p']},
+  money:{word:'money', ipa:'/ˈmʌni/', meaning:'お金', tokens:['ˈ','m','ʌ','n','i']},
+  clock:{word:'clock', ipa:'/klɑːk/', meaning:'時計', tokens:['k','l','ɑː','k']},
+  mom:{word:'mom', ipa:'/mɑːm/', meaning:'お母さん', tokens:['m','ɑː','m']},
+  later:{word:'later', ipa:'/ˈleɪt̬ɚ/', meaning:'後で', tokens:['ˈ','l','eɪ','t̬','ɚ']},
+  dinner:{word:'dinner', ipa:'/ˈdɪnɚ/', meaning:'夕食', tokens:['ˈ','d','ɪ','n','ɚ']},
+  winner:{word:'winner', ipa:'/ˈwɪnɚ/', meaning:'勝者', tokens:['ˈ','w','ɪ','n','ɚ']}
+});
+
+const PHONEMES = {
+  "æ": {
+    "title": "/æ/",
+    "sound": "bad の「エ」と「ア」の中間。日本人キラー母音。",
+    "mouth": "口を横に広げて、あごも少し下げる。",
+    "words": [
+      "bad",
+      "cat",
+      "man",
+      "sad",
+      "hat"
+    ]
+  },
+  "ɛ": {
+    "title": "/ɛ/",
+    "sound": "bed の短い「エ」。",
+    "mouth": "口は開きすぎず、日本語のエより少し広め。",
+    "words": [
+      "bed",
+      "red",
+      "head",
+      "get",
+      "said",
+      "better"
+    ]
+  },
+  "ɪ": {
+    "title": "/ɪ/",
+    "sound": "ship の短いイ。力を抜いた短い音。",
+    "mouth": "口をあまり横に引かず、短く軽く出す。",
+    "words": [
+      "ship",
+      "sit",
+      "big",
+      "fish",
+      "city",
+      "pretty",
+      "sister"
+    ]
+  },
+  "iː": {
+    "title": "/iː/",
+    "sound": "sheep の長いイー。",
+    "mouth": "口角を少し横に引き、長く伸ばす。",
+    "words": [
+      "sheep",
+      "see",
+      "tree",
+      "eat",
+      "teacher"
+    ]
+  },
+  "ʌ": {
+    "title": "/ʌ/",
+    "sound": "cup の短いア。力の抜けたア。",
+    "mouth": "口を大きく開けすぎず、短く軽く出す。",
+    "words": [
+      "cup",
+      "love",
+      "bus",
+      "run",
+      "sun"
+    ]
+  },
+  "ɑː": {
+    "title": "/ɑː/",
+    "sound": "口を大きく開ける「アー」。アメリカ英語の hot, father 系。",
+    "mouth": "あごを下げて、のどの奥を広くする。",
+    "words": [
+      "hot",
+      "father",
+      "stop",
+      "job",
+      "water"
+    ]
+  },
+  "ɚ": {
+    "title": "/ɚ/",
+    "sound": "アメリカ英語の er 音。語尾でよく出る「ァー(ル)」。",
+    "mouth": "口を軽く開き、舌を少し後ろへ引いて奥で響かせる。",
+    "words": [
+      "water",
+      "better",
+      "teacher",
+      "computer",
+      "sister",
+      "father"
+    ]
+  },
+  "t̬": {
+    "title": "Flap T /t̬/",
+    "sound": "アメリカ英語で t が「ラ・ダ」っぽくなる音。",
+    "mouth": "舌先を上前歯の裏あたりに一瞬ペチッと当てる。",
+    "words": [
+      "water",
+      "better",
+      "city",
+      "pretty",
+      "computer"
+    ]
+  },
+  "w": {
+    "title": "/w/",
+    "sound": "唇を丸めて「ウ」の口から始める音。",
+    "mouth": "口をすぼめて、すぐ次の母音へ滑らせる。",
+    "words": [
+      "water"
+    ]
+  },
+  "b": {
+    "title": "/b/",
+    "sound": "唇を閉じてから出す有声音。",
+    "mouth": "両唇を閉じて、声を乗せて破裂させる。",
+    "words": [
+      "bad",
+      "bed",
+      "better",
+      "big",
+      "bus",
+      "job"
+    ]
+  },
+  "d": {
+    "title": "/d/",
+    "sound": "舌先を上につけて出す有声音。",
+    "mouth": "上前歯の裏あたりに舌を当て、声を乗せる。",
+    "words": [
+      "bad",
+      "bed",
+      "red",
+      "head",
+      "said"
+    ]
+  },
+  "k": {
+    "title": "/k/",
+    "sound": "喉の奥寄りで息を破裂させる音。",
+    "mouth": "舌の奥を上あごに近づけて息を出す。",
+    "words": [
+      "cat",
+      "cup",
+      "computer"
+    ]
+  },
+  "t": {
+    "title": "/t/",
+    "sound": "基本の t。息で出す「トゥ」。",
+    "mouth": "舌先を上前歯の裏あたりにつけ、息で離す。",
+    "words": [
+      "cat",
+      "hat",
+      "get",
+      "sit",
+      "hot",
+      "stop",
+      "eat",
+      "teacher"
+    ]
+  },
+  "m": {
+    "title": "/m/",
+    "sound": "唇を閉じて鼻から響かせる音。",
+    "mouth": "両唇を閉じて、鼻に音を通す。",
+    "words": [
+      "man",
+      "computer"
+    ]
+  },
+  "n": {
+    "title": "/n/",
+    "sound": "舌先を上につけて鼻から響かせる音。",
+    "mouth": "舌先を上前歯の裏あたりにつけ、鼻に音を通す。",
+    "words": [
+      "man",
+      "run",
+      "sun"
+    ]
+  },
+  "s": {
+    "title": "/s/",
+    "sound": "歯の近くから細く息を出す s 音。",
+    "mouth": "舌を歯に近づけ、隙間から息を出す。",
+    "words": [
+      "sad",
+      "said",
+      "sit",
+      "city",
+      "sister",
+      "see",
+      "bus",
+      "sun",
+      "stop"
+    ]
+  },
+  "h": {
+    "title": "/h/",
+    "sound": "息だけで始まる h 音。",
+    "mouth": "喉から息を軽く出す。日本語のハより息を意識。",
+    "words": [
+      "hat",
+      "head",
+      "hot"
+    ]
+  },
+  "r": {
+    "title": "/r/",
+    "sound": "英語の r。舌を奥に引く音。",
+    "mouth": "舌先を上につけず、奥で丸める/引く。",
+    "words": [
+      "red",
+      "run",
+      "tree",
+      "pretty"
+    ]
+  },
+  "ɡ": {
+    "title": "/ɡ/",
+    "sound": "喉の奥寄りで声を乗せて出す g 音。",
+    "mouth": "舌の奥を上あごに近づけて、声を乗せる。",
+    "words": [
+      "get",
+      "big"
+    ]
+  },
+  "ʃ": {
+    "title": "/ʃ/",
+    "sound": "ship/sheep の sh 音。空気を細く出す。",
+    "mouth": "唇を少し丸め、舌を少し後ろにして「シュー」。",
+    "words": [
+      "ship",
+      "sheep",
+      "fish"
+    ]
+  },
+  "p": {
+    "title": "/p/",
+    "sound": "唇を閉じて息で破裂させる無声音。",
+    "mouth": "声は乗せず、息をポンと出す。",
+    "words": [
+      "ship",
+      "sheep",
+      "cup",
+      "pretty",
+      "stop",
+      "computer"
+    ]
+  },
+  "f": {
+    "title": "/f/",
+    "sound": "上の歯を下唇に軽く当てて息を出す音。",
+    "mouth": "噛みすぎず、下唇に歯を軽く触れさせる。",
+    "words": [
+      "fish",
+      "father"
+    ]
+  },
+  "l": {
+    "title": "/l/",
+    "sound": "舌先を上前歯の裏につける l 音。",
+    "mouth": "舌先を上につけたまま、横から声を逃がす。",
+    "words": [
+      "love"
+    ]
+  },
+  "v": {
+    "title": "/v/",
+    "sound": "上の歯を下唇に軽く当てて声を乗せる音。",
+    "mouth": "fと同じ形で、声をブルっと乗せる。",
+    "words": [
+      "love"
+    ]
+  },
+  "ð": {
+    "title": "/ð/",
+    "sound": "father の th。有声音。",
+    "mouth": "舌先を軽く歯の間に出し、声を乗せる。",
+    "words": [
+      "father"
+    ]
+  },
+  "dʒ": {
+    "title": "/dʒ/",
+    "sound": "job の j 音。声を乗せる「ヂュ」に近い音。",
+    "mouth": "舌を上あご付近に置き、声を乗せて破裂＋摩擦させる。",
+    "words": [
+      "job"
+    ]
+  },
+  "tʃ": {
+    "title": "/tʃ/",
+    "sound": "teacher の ch 音。",
+    "mouth": "t と sh が合体したように「チ」。息を出す。",
+    "words": [
+      "teacher"
+    ]
+  },
+  "ə": {
+    "title": "/ə/",
+    "sound": "弱く短い「あ」。schwa。英語で超頻出。",
+    "mouth": "口も舌も力を抜いて、短く曖昧に出す。",
+    "words": [
+      "computer"
+    ]
+  },
+  "j": {
+    "title": "/j/",
+    "sound": "yes の y 音。",
+    "mouth": "イの口から次の母音へ滑らせる。",
+    "words": [
+      "computer"
+    ]
+  },
+  "uː": {
+    "title": "/uː/",
+    "sound": "長いウー。",
+    "mouth": "唇を丸めて前に出し、長く伸ばす。",
+    "words": [
+      "computer"
+    ]
+  },
+  "i": {
+    "title": "/i/",
+    "sound": "city, pretty の語尾の軽いイ。",
+    "mouth": "長く伸ばさず、軽く短く出す。",
+    "words": [
+      "city",
+      "pretty"
+    ]
+  },
+  "ˈ": {
+    "title": "強勢マーク /ˈ/",
+    "sound": "この後ろの音節を強く読む合図。",
+    "mouth": "音ではなくアクセント記号。強く・少し長く読む。",
+    "words": [
+      "water",
+      "better",
+      "teacher",
+      "sister",
+      "father",
+      "city",
+      "pretty"
+    ]
+  }
+};
+
+let words = loadWords();
+let index = 0;
+let slow = false;
+let voices = [];
+
+function loadWords(){
+  try{ const saved = JSON.parse(localStorage.getItem('pg_words')||'[]'); return [...DEFAULT_WORDS, ...saved]; }catch(e){ return DEFAULT_WORDS; }
+}
+function saveCustom(){
+  const custom = words.slice(DEFAULT_WORDS.length);
+  localStorage.setItem('pg_words', JSON.stringify(custom));
+}
+function startApp(){document.getElementById('home').classList.remove('active');document.getElementById('trainer').classList.add('active');render();setTimeout(speakCurrent,250)}
+function goHome(){document.getElementById('trainer').classList.remove('active');document.getElementById('home').classList.add('active')}
+function render(){
+  const item = words[index];
+  document.getElementById('counter').textContent = `${index+1} / ${words.length}`;
+  document.getElementById('word').textContent = item.word;
+  document.getElementById('meaning').textContent = item.meaning || '';
+  const ipa = document.getElementById('ipa'); ipa.innerHTML = '';
+  ipa.appendChild(document.createTextNode('/'));
+  (item.tokens || tokenizeIPA(item.ipa)).forEach(t=>{ const s=document.createElement('span'); s.textContent=t; s.onclick=()=>showPhoneme(t); ipa.appendChild(s); });
+  ipa.appendChild(document.createTextNode('/'));
+  document.getElementById('slowBtn').classList.toggle('on', slow);
+}
+function tokenizeIPA(ipa){
+  return ipa.replaceAll('/','').replaceAll('.','').split('').filter(Boolean);
+}
+function getVoice(){
+  voices = speechSynthesis.getVoices();
+  return voices.find(v=>/en-US/i.test(v.lang) && /Samantha|Ava|Allison|Susan|Google US English|Microsoft/i.test(v.name)) || voices.find(v=>/en-US/i.test(v.lang)) || voices[0];
+}
+function speakCurrent(){
+  const item = words[index];
+  if(!('speechSynthesis' in window)){toast('このブラウザは音声読み上げに未対応やで');return;}
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(item.word);
+  u.lang = 'en-US';
+  u.rate = slow ? 0.5 : 1.0; // Rule 8: Slow = Normalの50%
+  u.pitch = 1.0;
+  const v = getVoice(); if(v) u.voice = v;
+  speechSynthesis.speak(u);
+}
+if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged = ()=>voices = speechSynthesis.getVoices(); }
+function nextWord(){ index = (index + 1) % words.length; render(); setTimeout(speakCurrent,120); }
+function toggleSlow(){ slow = !slow; render(); speakCurrent(); }
+function shuffleWords(){ for(let i=words.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [words[i],words[j]]=[words[j],words[i]]; } index=0; render(); speakCurrent(); }
+// Rule 31-34: This HTML is learning-only. New complete word cards are added by editing the dictionary via ChatGPT on MacBook.
+function tokenizeSmart(ipa){
+  let s=ipa.replaceAll('/','').replaceAll('.','');
+  const known=Object.keys(PHONEMES).sort((a,b)=>b.length-a.length);
+  const out=[]; let i=0;
+  while(i<s.length){
+    if(s[i]===' '){i++;continue}
+    let hit='';
+    for(const k of known){ if(s.startsWith(k,i)){ hit=k; break; } }
+    if(hit){ out.push(hit); i+=hit.length; } else { out.push(s[i]); i++; }
+  }
+  return out;
+}
+function showPhoneme(t){
+  const p = PHONEMES[t] || {title:`/${t}/`, sound:'この音の説明はまだ未登録。今後追加できるで。', mouth:'発音記号データを追加するとここに表示される。', words:[]};
+  document.getElementById('modalSymbol').textContent = t;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalSound').textContent = p.sound;
+  document.getElementById('modalMouth').textContent = p.mouth;
+  const box=document.getElementById('modalWords'); box.innerHTML='';
+  p.words.forEach(w=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=w; b.onclick=()=>jumpToWord(w); box.appendChild(b); });
+  if(!p.words.length){ box.textContent='仲間単語は未登録'; }
+  document.getElementById('modal').classList.add('open');
+}
+function jumpToWord(w){
+  let found = words.findIndex(x=>x.word.toLowerCase()===w.toLowerCase());
+  if(found === -1){
+    const base = DEFAULT_WORDS.find(x=>x.word.toLowerCase()===w.toLowerCase());
+    if(base){ words.push(base); found = words.length-1; }
+  }
+  if(found === -1){ toast('この単語カードはまだ未登録やで'); return; }
+  index = found; hideModal(); render(); setTimeout(speakCurrent,180);
+}
+function hideModal(){document.getElementById('modal').classList.remove('open')}
+function closeModal(e){ if(e.target.id==='modal') hideModal(); }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+render();
+</script>
+</body>
+</html>
