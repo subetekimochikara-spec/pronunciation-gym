@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Pronunciation Gym - Stable Release</title>
+<title>Pronunciation Gym</title>
+<meta name="theme-color" content="#081424" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Pronunciation Gym" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="icon.png" />
 <style>
   :root{
     --bg1:#081424; --bg2:#102f58; --accent:#5ee7ff; --accent2:#ffdf6e;
@@ -26,7 +32,7 @@
   .home-add input{width:100%;padding:15px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.24);color:var(--text);font-size:17px;text-align:center;font-weight:800}
   .home-add .hint{font-size:12px;color:var(--muted);line-height:1.6;margin:9px 0 0}
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}@keyframes ripple{0%{transform:scale(.72);opacity:.8}100%{transform:scale(1.08);opacity:.04}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-  .app{width:min(560px,100%);margin:0 auto}.topbar{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.mini{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:var(--text);border-radius:14px;padding:10px 12px;font-weight:800}.card{width:100%;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.18);border-radius:32px;padding:28px 20px;box-shadow:0 22px 80px rgba(0,0,0,.26);backdrop-filter:blur(16px);text-align:center}.counter{color:var(--muted);font-weight:800;font-size:13px;margin-bottom:14px}.word{font-size:58px;font-weight:950;letter-spacing:-.045em;margin:6px 0 8px}.meaning{color:#d8e7f5;font-size:17px;margin-bottom:18px}.ipa{display:flex;justify-content:center;align-items:center;gap:3px;flex-wrap:wrap;margin:10px auto 20px;font-size:25px}.ipa span{padding:4px 6px;border-radius:10px;background:rgba(94,231,255,.09);border:1px solid rgba(94,231,255,.18);cursor:pointer}.ipa span:hover{background:rgba(94,231,255,.2)}.speak{width:112px;height:112px;border-radius:50%;border:0;background:radial-gradient(circle at 30% 25%,#fff,#5ee7ff 45%,#4875ff);font-size:42px;box-shadow:0 16px 42px rgba(94,231,255,.33);margin:10px auto 22px;display:flex;align-items:center;justify-content:center}.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.control{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.12);color:var(--text);border-radius:18px;padding:15px 12px;font-weight:900;font-size:16px}.control.on{background:rgba(255,223,110,.2);border-color:rgba(255,223,110,.55);color:#fff3b4}.wide{grid-column:1/-1;background:linear-gradient(135deg,#5ee7ff,#7c6bff);color:#061225;border:0}.addbox{margin-top:18px;padding:16px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);display:none}.addbox.open{display:block}.addbox input{width:100%;margin:7px 0;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.18);color:var(--text);font-size:16px}.hint{color:var(--muted);font-size:13px;line-height:1.5;margin:8px 0 0}.modal{position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:flex-end;justify-content:center;z-index:10}.modal.open{display:flex}.sheet{width:min(560px,100%);background:#0b1729;border:1px solid rgba(255,255,255,.16);border-radius:28px 28px 0 0;padding:22px 18px 30px;box-shadow:0 -20px 80px rgba(0,0,0,.45)}.symbol{font-size:42px;font-weight:950;color:var(--accent);margin:0 0 4px}.sheet h3{margin:0 0 10px;font-size:22px}.row{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.11);border-radius:18px;padding:13px;margin:10px 0;text-align:left}.row b{display:block;color:#dffaff;margin-bottom:5px}.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:8px}.chip{border:1px solid rgba(94,231,255,.34);background:rgba(94,231,255,.13);color:#e9fbff;border-radius:999px;padding:10px 13px;font-weight:900}.close{width:100%;margin-top:14px;border:0;border-radius:18px;padding:14px;background:rgba(255,255,255,.13);color:var(--text);font-weight:900}.smallnote{font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(10,22,38,.94);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:12px 16px;font-weight:900;display:none;z-index:20}.toast.show{display:block}
+  .app{width:min(560px,100%);margin:0 auto}.topbar{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.mini{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:var(--text);border-radius:14px;padding:10px 12px;font-weight:800}.card{width:100%;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.18);border-radius:32px;padding:28px 20px;box-shadow:0 22px 80px rgba(0,0,0,.26);backdrop-filter:blur(16px);text-align:center}.counter{color:var(--muted);font-weight:800;font-size:13px;margin-bottom:14px}.word{font-size:58px;font-weight:950;letter-spacing:-.045em;margin:6px 0 8px}.meaning{color:#d8e7f5;font-size:17px;margin-bottom:12px}.reading{font-size:18px;font-weight:900;color:#ffdf6e;margin:-8px 0 18px;text-shadow:0 0 18px rgba(255,223,110,.18)}.ipa{display:flex;justify-content:center;align-items:center;gap:3px;flex-wrap:wrap;margin:10px auto 20px;font-size:25px}.ipa span{padding:4px 6px;border-radius:10px;background:rgba(94,231,255,.09);border:1px solid rgba(94,231,255,.18);cursor:pointer}.ipa span:hover{background:rgba(94,231,255,.2)}.speak{width:112px;height:112px;border-radius:50%;border:0;background:radial-gradient(circle at 30% 25%,#fff,#5ee7ff 45%,#4875ff);font-size:42px;box-shadow:0 16px 42px rgba(94,231,255,.33);margin:10px auto 22px;display:flex;align-items:center;justify-content:center}.controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px}.control{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.12);color:var(--text);border-radius:18px;padding:15px 12px;font-weight:900;font-size:16px}.control.on{background:rgba(255,223,110,.2);border-color:rgba(255,223,110,.55);color:#fff3b4}.nextbtn{background:linear-gradient(135deg,#5ee7ff,#7c6bff);color:#061225;border:0}.prevbtn{background:rgba(255,255,255,.13)}.addbox{margin-top:18px;padding:16px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);display:none}.addbox.open{display:block}.addbox input{width:100%;margin:7px 0;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.18);color:var(--text);font-size:16px}.hint{color:var(--muted);font-size:13px;line-height:1.5;margin:8px 0 0}.modal{position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:flex-end;justify-content:center;z-index:10}.modal.open{display:flex}.sheet{width:min(560px,100%);background:#0b1729;border:1px solid rgba(255,255,255,.16);border-radius:28px 28px 0 0;padding:22px 18px 30px;box-shadow:0 -20px 80px rgba(0,0,0,.45)}.symbol{font-size:42px;font-weight:950;color:var(--accent);margin:0 0 4px}.sheet h3{margin:0 0 10px;font-size:22px}.row{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.11);border-radius:18px;padding:13px;margin:10px 0;text-align:left}.row b{display:block;color:#dffaff;margin-bottom:5px}.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:8px}.chip{border:1px solid rgba(94,231,255,.34);background:rgba(94,231,255,.13);color:#e9fbff;border-radius:999px;padding:10px 13px;font-weight:900}.close{width:100%;margin-top:14px;border:0;border-radius:18px;padding:14px;background:rgba(255,255,255,.13);color:var(--text);font-weight:900}.smallnote{font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(10,22,38,.94);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:12px 16px;font-weight:900;display:none;z-index:20}.toast.show{display:block}
 
 
 /* ===== Ver.3 Top Screen: America x Future x Pronunciation ===== */
@@ -254,11 +260,13 @@
       <div id="word" class="word">water</div>
       <div id="meaning" class="meaning">水</div>
       <div id="ipa" class="ipa"></div>
+      <div id="reading" class="reading"></div>
       <button class="speak" onclick="speakCurrent()">🔊</button>
       <div class="controls">
+        <button class="control prevbtn" onclick="prevWord()">← Back</button>
         <button id="slowBtn" class="control" onclick="toggleSlow()">🐢 Slow</button>
         <button class="control" onclick="shuffleWords()">🔀 Shuffle</button>
-        <button class="control wide" onclick="nextWord()">Next →</button>
+        <button class="control nextbtn" onclick="nextWord()">Next →</button>
       </div>
     </div>
   </div>
@@ -278,12 +286,13 @@
 <div id="toast" class="toast"></div>
 
 <script>
-// Pronunciation Gym 実装版: Repeat削除・ホーム追加・Rule18-20反映済み
+// Pronunciation Gym Ver.1.1: Back・読み方目安・PWA・/ɔː/追加反映済み
 const DEFAULT_WORDS = [
   {
     "word": "bad",
     "ipa": "/bæd/",
     "meaning": "悪い",
+    "reading": "バッド",
     "tokens": [
       "b",
       "æ",
@@ -294,6 +303,7 @@ const DEFAULT_WORDS = [
     "word": "cat",
     "ipa": "/kæt/",
     "meaning": "猫",
+    "reading": "キャット",
     "tokens": [
       "k",
       "æ",
@@ -304,6 +314,7 @@ const DEFAULT_WORDS = [
     "word": "man",
     "ipa": "/mæn/",
     "meaning": "男性",
+    "reading": "マン",
     "tokens": [
       "m",
       "æ",
@@ -314,6 +325,7 @@ const DEFAULT_WORDS = [
     "word": "sad",
     "ipa": "/sæd/",
     "meaning": "悲しい",
+    "reading": "サッド",
     "tokens": [
       "s",
       "æ",
@@ -324,6 +336,7 @@ const DEFAULT_WORDS = [
     "word": "hat",
     "ipa": "/hæt/",
     "meaning": "帽子",
+    "reading": "ハット",
     "tokens": [
       "h",
       "æ",
@@ -334,6 +347,7 @@ const DEFAULT_WORDS = [
     "word": "bed",
     "ipa": "/bɛd/",
     "meaning": "ベッド",
+    "reading": "ベッド",
     "tokens": [
       "b",
       "ɛ",
@@ -344,6 +358,7 @@ const DEFAULT_WORDS = [
     "word": "red",
     "ipa": "/rɛd/",
     "meaning": "赤い",
+    "reading": "レッド",
     "tokens": [
       "r",
       "ɛ",
@@ -354,6 +369,7 @@ const DEFAULT_WORDS = [
     "word": "head",
     "ipa": "/hɛd/",
     "meaning": "頭",
+    "reading": "ヘッド",
     "tokens": [
       "h",
       "ɛ",
@@ -364,6 +380,7 @@ const DEFAULT_WORDS = [
     "word": "get",
     "ipa": "/ɡɛt/",
     "meaning": "手に入れる",
+    "reading": "ゲット",
     "tokens": [
       "ɡ",
       "ɛ",
@@ -374,6 +391,7 @@ const DEFAULT_WORDS = [
     "word": "said",
     "ipa": "/sɛd/",
     "meaning": "言った",
+    "reading": "セッド",
     "tokens": [
       "s",
       "ɛ",
@@ -384,6 +402,7 @@ const DEFAULT_WORDS = [
     "word": "better",
     "ipa": "/ˈbet̬ɚ/",
     "meaning": "より良い",
+    "reading": "ベラー",
     "tokens": [
       "ˈ",
       "b",
@@ -396,6 +415,7 @@ const DEFAULT_WORDS = [
     "word": "ship",
     "ipa": "/ʃɪp/",
     "meaning": "船",
+    "reading": "シップ",
     "tokens": [
       "ʃ",
       "ɪ",
@@ -406,6 +426,7 @@ const DEFAULT_WORDS = [
     "word": "sit",
     "ipa": "/sɪt/",
     "meaning": "座る",
+    "reading": "シット",
     "tokens": [
       "s",
       "ɪ",
@@ -416,6 +437,7 @@ const DEFAULT_WORDS = [
     "word": "big",
     "ipa": "/bɪɡ/",
     "meaning": "大きい",
+    "reading": "ビッグ",
     "tokens": [
       "b",
       "ɪ",
@@ -426,6 +448,7 @@ const DEFAULT_WORDS = [
     "word": "fish",
     "ipa": "/fɪʃ/",
     "meaning": "魚",
+    "reading": "フィッシュ",
     "tokens": [
       "f",
       "ɪ",
@@ -436,6 +459,7 @@ const DEFAULT_WORDS = [
     "word": "city",
     "ipa": "/ˈsɪt̬i/",
     "meaning": "都市",
+    "reading": "シティ",
     "tokens": [
       "ˈ",
       "s",
@@ -448,6 +472,7 @@ const DEFAULT_WORDS = [
     "word": "pretty",
     "ipa": "/ˈprɪt̬i/",
     "meaning": "かわいい",
+    "reading": "プリティ",
     "tokens": [
       "ˈ",
       "p",
@@ -461,6 +486,7 @@ const DEFAULT_WORDS = [
     "word": "sister",
     "ipa": "/ˈsɪs.tɚ/",
     "meaning": "姉妹",
+    "reading": "シスター",
     "tokens": [
       "ˈ",
       "s",
@@ -474,6 +500,7 @@ const DEFAULT_WORDS = [
     "word": "sheep",
     "ipa": "/ʃiːp/",
     "meaning": "羊",
+    "reading": "シープ",
     "tokens": [
       "ʃ",
       "iː",
@@ -484,6 +511,7 @@ const DEFAULT_WORDS = [
     "word": "see",
     "ipa": "/siː/",
     "meaning": "見る",
+    "reading": "シー",
     "tokens": [
       "s",
       "iː"
@@ -493,6 +521,7 @@ const DEFAULT_WORDS = [
     "word": "tree",
     "ipa": "/triː/",
     "meaning": "木",
+    "reading": "トゥリー",
     "tokens": [
       "t",
       "r",
@@ -503,6 +532,7 @@ const DEFAULT_WORDS = [
     "word": "eat",
     "ipa": "/iːt/",
     "meaning": "食べる",
+    "reading": "イート",
     "tokens": [
       "iː",
       "t"
@@ -512,6 +542,7 @@ const DEFAULT_WORDS = [
     "word": "teacher",
     "ipa": "/ˈtiː.tʃɚ/",
     "meaning": "先生",
+    "reading": "ティーチャー",
     "tokens": [
       "ˈ",
       "t",
@@ -524,6 +555,7 @@ const DEFAULT_WORDS = [
     "word": "cup",
     "ipa": "/kʌp/",
     "meaning": "カップ",
+    "reading": "カップ",
     "tokens": [
       "k",
       "ʌ",
@@ -534,6 +566,7 @@ const DEFAULT_WORDS = [
     "word": "love",
     "ipa": "/lʌv/",
     "meaning": "愛する",
+    "reading": "ラヴ",
     "tokens": [
       "l",
       "ʌ",
@@ -544,6 +577,7 @@ const DEFAULT_WORDS = [
     "word": "bus",
     "ipa": "/bʌs/",
     "meaning": "バス",
+    "reading": "バス",
     "tokens": [
       "b",
       "ʌ",
@@ -554,6 +588,7 @@ const DEFAULT_WORDS = [
     "word": "run",
     "ipa": "/rʌn/",
     "meaning": "走る",
+    "reading": "ラン",
     "tokens": [
       "r",
       "ʌ",
@@ -564,6 +599,7 @@ const DEFAULT_WORDS = [
     "word": "sun",
     "ipa": "/sʌn/",
     "meaning": "太陽",
+    "reading": "サン",
     "tokens": [
       "s",
       "ʌ",
@@ -574,6 +610,7 @@ const DEFAULT_WORDS = [
     "word": "hot",
     "ipa": "/hɑːt/",
     "meaning": "熱い",
+    "reading": "ハット",
     "tokens": [
       "h",
       "ɑː",
@@ -584,6 +621,7 @@ const DEFAULT_WORDS = [
     "word": "father",
     "ipa": "/ˈfɑː.ðɚ/",
     "meaning": "父",
+    "reading": "ファーザー",
     "tokens": [
       "ˈ",
       "f",
@@ -596,6 +634,7 @@ const DEFAULT_WORDS = [
     "word": "stop",
     "ipa": "/stɑːp/",
     "meaning": "止まる",
+    "reading": "スタップ",
     "tokens": [
       "s",
       "t",
@@ -607,6 +646,7 @@ const DEFAULT_WORDS = [
     "word": "job",
     "ipa": "/dʒɑːb/",
     "meaning": "仕事",
+    "reading": "ジャーブ",
     "tokens": [
       "dʒ",
       "ɑː",
@@ -617,6 +657,7 @@ const DEFAULT_WORDS = [
     "word": "water",
     "ipa": "/ˈwɑː.t̬ɚ/",
     "meaning": "水",
+    "reading": "ワーダー",
     "tokens": [
       "ˈ",
       "w",
@@ -629,6 +670,7 @@ const DEFAULT_WORDS = [
     "word": "computer",
     "ipa": "/kəmˈpjuː.t̬ɚ/",
     "meaning": "コンピューター",
+    "reading": "コンピューラー",
     "tokens": [
       "k",
       "ə",
@@ -640,6 +682,41 @@ const DEFAULT_WORDS = [
       "t̬",
       "ɚ"
     ]
+  },
+  {
+    "word": "coffee",
+    "ipa": "/ˈkɔː.fi/",
+    "meaning": "コーヒー",
+    "reading": "カーフィー",
+    "tokens": ["ˈ", "k", "ɔː", "f", "i"]
+  },
+  {
+    "word": "walk",
+    "ipa": "/wɔːk/",
+    "meaning": "歩く",
+    "reading": "ウォーク",
+    "tokens": ["w", "ɔː", "k"]
+  },
+  {
+    "word": "talk",
+    "ipa": "/tɔːk/",
+    "meaning": "話す",
+    "reading": "トーク",
+    "tokens": ["t", "ɔː", "k"]
+  },
+  {
+    "word": "all",
+    "ipa": "/ɔːl/",
+    "meaning": "すべて",
+    "reading": "オール",
+    "tokens": ["ɔː", "l"]
+  },
+  {
+    "word": "small",
+    "ipa": "/smɔːl/",
+    "meaning": "小さい",
+    "reading": "スモール",
+    "tokens": ["s", "m", "ɔː", "l"]
   }
 ];
 
@@ -740,6 +817,18 @@ const PHONEMES = {
       "water"
     ]
   },
+  "ɔː": {
+    "title": "/ɔː/",
+    "sound": "coffee, walk, talk の長めのオー系の音。アメリカ英語では地域差もあるけど、口を丸めすぎず奥で響かせる。",
+    "mouth": "あごを少し下げて、のどの奥を広くする。日本語のオーより少し深め。",
+    "words": [
+      "coffee",
+      "walk",
+      "talk",
+      "all",
+      "small"
+    ]
+  },
   "ɚ": {
     "title": "/ɚ/",
     "sound": "アメリカ英語の er 音。語尾でよく出る「ァー(ル)」。",
@@ -770,7 +859,8 @@ const PHONEMES = {
     "sound": "唇を丸めて「ウ」の口から始める音。",
     "mouth": "口をすぼめて、すぐ次の母音へ滑らせる。",
     "words": [
-      "water"
+      "water",
+      "walk"
     ]
   },
   "b": {
@@ -805,7 +895,10 @@ const PHONEMES = {
     "words": [
       "cat",
       "cup",
-      "computer"
+      "computer",
+      "coffee",
+      "walk",
+      "talk"
     ]
   },
   "t": {
@@ -820,7 +913,8 @@ const PHONEMES = {
       "hot",
       "stop",
       "eat",
-      "teacher"
+      "teacher",
+      "talk"
     ]
   },
   "m": {
@@ -829,7 +923,8 @@ const PHONEMES = {
     "mouth": "両唇を閉じて、鼻に音を通す。",
     "words": [
       "man",
-      "computer"
+      "computer",
+      "small"
     ]
   },
   "n": {
@@ -855,7 +950,8 @@ const PHONEMES = {
       "see",
       "bus",
       "sun",
-      "stop"
+      "stop",
+      "small"
     ]
   },
   "h": {
@@ -917,7 +1013,8 @@ const PHONEMES = {
     "mouth": "噛みすぎず、下唇に歯を軽く触れさせる。",
     "words": [
       "fish",
-      "father"
+      "father",
+      "coffee"
     ]
   },
   "l": {
@@ -925,7 +1022,9 @@ const PHONEMES = {
     "sound": "舌先を上前歯の裏につける l 音。",
     "mouth": "舌先を上につけたまま、横から声を逃がす。",
     "words": [
-      "love"
+      "love",
+      "all",
+      "small"
     ]
   },
   "v": {
@@ -933,7 +1032,9 @@ const PHONEMES = {
     "sound": "上の歯を下唇に軽く当てて声を乗せる音。",
     "mouth": "fと同じ形で、声をブルっと乗せる。",
     "words": [
-      "love"
+      "love",
+      "all",
+      "small"
     ]
   },
   "ð": {
@@ -1028,6 +1129,7 @@ function render(){
   document.getElementById('counter').textContent = `${index+1} / ${words.length}`;
   document.getElementById('word').textContent = item.word;
   document.getElementById('meaning').textContent = item.meaning || '';
+  document.getElementById('reading').textContent = item.reading ? `読み方目安：${item.reading}` : '読み方目安：未設定';
   const ipa = document.getElementById('ipa'); ipa.innerHTML = '';
   ipa.appendChild(document.createTextNode('/'));
   (item.tokens || tokenizeIPA(item.ipa)).forEach(t=>{ const s=document.createElement('span'); s.textContent=t; s.onclick=()=>showPhoneme(t); ipa.appendChild(s); });
@@ -1054,6 +1156,7 @@ function speakCurrent(){
 }
 if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged = ()=>voices = speechSynthesis.getVoices(); }
 function nextWord(){ index = (index + 1) % words.length; render(); setTimeout(speakCurrent,120); }
+function prevWord(){ index = (index - 1 + words.length) % words.length; render(); setTimeout(speakCurrent,120); }
 function toggleSlow(){ slow = !slow; render(); speakCurrent(); }
 function shuffleWords(){ for(let i=words.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [words[i],words[j]]=[words[j],words[i]]; } index=0; render(); speakCurrent(); }
 // Rule 31-34: This HTML is learning-only. New complete word cards are added by editing the dictionary via ChatGPT on MacBook.
