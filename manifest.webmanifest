@@ -1,7 +1,6 @@
 {
   "name": "Pronunciation Gym",
   "short_name": "PronGym",
-  "description": "Learn Sounds, Not Words.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#05070b",
