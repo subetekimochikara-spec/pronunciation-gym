@@ -1,13 +1,22 @@
 {
   "name": "Pronunciation Gym",
   "short_name": "PronGym",
-  "description": "American English pronunciation training lab",
-  "start_url": "./",
+  "description": "Learn Sounds, Not Words.",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#081424",
-  "theme_color": "#081424",
-  "orientation": "portrait",
+  "background_color": "#05070b",
+  "theme_color": "#05070b",
   "icons": [
-    { "src": "icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any maskable" }
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
   ]
 }
