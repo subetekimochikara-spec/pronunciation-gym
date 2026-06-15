@@ -1,16 +1,15 @@
 {
   "name": "Pronunciation Gym",
-  "short_name": "PronGym",
+  "short_name": "Pronunciation Gym",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#05070b",
-  "theme_color": "#05070b",
+  "background_color": "#03070d",
+  "theme_color": "#03070d",
   "icons": [
     {
       "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "apple-touch-icon.png",
